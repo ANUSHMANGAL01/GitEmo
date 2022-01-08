@@ -1,0 +1,17 @@
+{
+  "manifest_version": 2,
+  "name": "GitEmo",
+  "description": "Augment Github with Emotions",
+  "version": "1.0",
+  "permissions": [
+    "tabs",
+    "*://github.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["*://github.com/*"],
+      "css": ["css/style.css"],
+      "js": ["js/jquery-3.3.1.min.js", "githubEmo.js"]
+    }
+  ]
+}
