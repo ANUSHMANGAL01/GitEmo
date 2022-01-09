@@ -70347,7 +70347,7 @@ THE SOFTWARE.
 
         function Sentiment_Prediction(s) {
           var score = sentiment.analyze(s)["score"];
-          console.log(score); // The function returns the product of p1 and p2
+          // console.log(score); // The function returns the product of p1 and p2
 
           return score;
         } // mydocx.forEach(function(s){
@@ -71714,11 +71714,16 @@ THE SOFTWARE.
         var array = [];
         // console.log(array1.diff(array2));
 
-        function main() {
-          window.addEventListener("load", function () {
-            //check here!!
+        chrome.runtime.onMessage.addListener(function(request) {
+          if (request && request.type === 'pageRendered') {
+            // call method which gets fired as if new page is opened
+            setTimeout(function(){
+              main();
+            }, 2000);
+          }
+        });
 
-            alert("It's working");
+        function main() {
 
             var elementlist = document.querySelectorAll(
               "td.d-block.comment-body.markdown-body.js-comment-body > p"
@@ -71732,7 +71737,9 @@ THE SOFTWARE.
             var i = 0;
 
             while (i < elementlist.length) {
-              var com = elementlist[i].innerHTML;
+              // const codeLinesText = codeLines.map(l => l.textContent);
+
+              var com = elementlist[i].textContent;
               var temp = com;
               temp = preProcess(temp);
 
@@ -71842,14 +71849,17 @@ THE SOFTWARE.
 
               i++;
             }
+            }
+            //check here!!
 
             // elementlist[0].innerText = "Augmented Subject";
-          });
+          // });
 
           // var com = elementlist[0].innerText;
           // var a = Sentiment_Prediction(com);
           // elementlist[0].innerText = a.toString(10);
-        }
+        // }
+        
         $(document).ready(function () {
           main();
         });
