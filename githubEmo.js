@@ -71726,7 +71726,7 @@ THE SOFTWARE.
         function main() {
 
             var elementlist = document.querySelectorAll(
-              "td.d-block.comment-body.markdown-body.js-comment-body > p"
+              "td.d-block.comment-body.markdown-body.js-comment-body > p , a.Link--primary.text-bold.js-navigation-open.markdown-title"
             );
             // var elementlist = document.querySelectorAll(
             //   ".y6,.hP,.gmail_default, span, p"
