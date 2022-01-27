@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "GitEmo2Copy",
+  "name": "GitEmo",
   "description": "Augment Github with Emotions",
   "version": "1.0.1",
   "minimum_chrome_version": "49",
