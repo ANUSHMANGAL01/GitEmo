@@ -3,7 +3,7 @@ import sys
 import ast
 import json
 classifier = pipeline("zero-shot-classification", device=0)
-candidate_labels = ["anger", "fear", "joy", "sadness", "surprise" , "confidence", "confused", "worried", "praise", "mistake"]
+# candidate_labels = ["anger", "fear", "joy", "sadness", "surprise" , "confidence", "confused", "worried", "praise", "mistake"]
 
 # input = ast.literal_eval(sys.argv[1])
 # output =[]
@@ -17,7 +17,7 @@ candidate_labels = ["anger", "fear", "joy", "sadness", "surprise" , "confidence"
 # sys.stdout.flush() 
 
 def sentiment_func(input_list):
-
+    candidate_labels = ["anger", "fear", "joy", "sadness", "surprise" , "confidence", "confused", "worried", "praise", "mistake"]
     output=[]
     for text in input_list:
         text_result = classifier(text, candidate_labels)

@@ -71714,152 +71714,171 @@ THE SOFTWARE.
         var array = [];
         // console.log(array1.diff(array2));
 
-        chrome.runtime.onMessage.addListener(function(request) {
-          if (request && request.type === 'pageRendered') {
+        chrome.runtime.onMessage.addListener(function (request) {
+          if (request && request.type === "pageRendered") {
             // call method which gets fired as if new page is opened
-            setTimeout(function(){
+            setTimeout(function () {
               main();
             }, 2000);
           }
         });
 
         function main() {
+          var elementlist = document.querySelectorAll(
+            "td.d-block.comment-body.markdown-body.js-comment-body > p , a.Link--primary.text-bold.js-navigation-open.markdown-title"
+          );
+          // var elementlist = document.querySelectorAll(
+          //   ".y6,.hP,.gmail_default, span, p"
+          // );
 
-            var elementlist = document.querySelectorAll(
-              "td.d-block.comment-body.markdown-body.js-comment-body > p , a.Link--primary.text-bold.js-navigation-open.markdown-title"
-            );
-            // var elementlist = document.querySelectorAll(
-            //   ".y6,.hP,.gmail_default, span, p"
-            // );
+          var dat_to_pass_in = [];
+          let i = 0;
+          for (i = 0; i < elementlist.length; i++) {
+            dat_to_pass_in.push({ test: elementlist[i].textContent });
+            console.log(elementlist[i].textContent);
+          }
 
-            console.log(elementlist);
-
-            var i = 0;
-
-            while (i < elementlist.length) {
-              // const codeLinesText = codeLines.map(l => l.textContent);
-
-              var com = elementlist[i].textContent;
-              var temp = com;
-              temp = preProcess(temp);
-
-              var a = Sentiment_Prediction(temp);
-              var words = word_classifier(temp);
-              console.log(words);
-
-              // if (words.length < 4) {
-              //   continue;
-              // }
-
-              var classpoints = [12];
-              var max = 0;
-              classs = -1;
-
-              classpoints[0] = words.diff(class1).length;
-              classpoints[1] = words.diff(class2).length;
-              classpoints[2] = words.diff(class3).length;
-              classpoints[3] = words.diff(class4).length;
-              classpoints[4] = words.diff(class5).length;
-              classpoints[5] = words.diff(class6).length;
-              classpoints[6] = words.diff(class7).length;
-              classpoints[7] = words.diff(class8).length;
-              classpoints[8] = words.diff(class9).length;
-              classpoints[9] = words.diff(class10).length;
-              classpoints[10] = words.diff(class11).length;
-              classpoints[11] = words.diff(class12).length;
-
-              for (ii = 0; ii < classpoints.length; ii++) {
-                if (classpoints[ii] > max) {
-                  max = classpoints[ii];
-                  classs = ii;
-                }
-                console.log(classpoints[ii]);
-              }
-
-              console.log("here");
-              console.log(classs);
-
-              console.log(max);
-
-              var new_string = "";
-              if (a > 0) {
-                if (classs == 0) {
-                  new_string = new_string + "😄 ";
-                } else if (classs == 1) {
-                  new_string = new_string + "👏 ";
-                } else if (classs == 2) {
-                  new_string = new_string + "😌 ";
-                } else if (classs == 3) {
-                  new_string = new_string + "😨 ";
-                } else if (classs == 4) {
-                  new_string = new_string + "😞 ";
-                } else if (classs == 5) {
-                  new_string = new_string + "😢 ";
-                } else if (classs == 6) {
-                  new_string = new_string + "😣 ";
-                } else if (classs == 7) {
-                  new_string = new_string + "😵 ";
-                } else if (classs == 8) {
-                  new_string = new_string + "😤 ";
-                } else if (classs == 9) {
-                  new_string = new_string + "👍 ";
-                } else if (classs == 10) {
-                  new_string = new_string + "😄 ";
-                } else if (classs == 11) {
-                  new_string = new_string + "🤩 ";
-                } else if (classs == -1) {
-                  new_string = new_string + "👌";
-                }
-                new_string = new_string + com;
-                elementlist[i].innerHTML = new_string;
-              } else if (a < 0) {
-                if (classs == 0) {
-                  new_string = new_string + "😄 ";
-                } else if (classs == 1) {
-                  new_string = new_string + "👏 ";
-                } else if (classs == 2) {
-                  new_string = new_string + "😌 ";
-                } else if (classs == 3) {
-                  new_string = new_string + "😨 ";
-                } else if (classs == 4) {
-                  new_string = new_string + "😞 ";
-                } else if (classs == 5) {
-                  new_string = new_string + "😢 ";
-                } else if (classs == 6) {
-                  new_string = new_string + "😣 ";
-                } else if (classs == 7) {
-                  new_string = new_string + "😵 ";
-                } else if (classs == 8) {
-                  new_string = new_string + "😤 ";
-                } else if (classs == 9) {
-                  new_string = new_string + "👍 ";
-                } else if (classs == 10) {
-                  new_string = new_string + "😄 ";
-                } else if (classs == 11) {
-                  new_string = new_string + "🤩 ";
-                } else if (classs == -1) {
-                  new_string = new_string + "😤";
-                }
-
-                new_string = new_string + com;
-                elementlist[i].innerHTML = new_string;
-              } else {
-                new_string = new_string + "";
-              }
-
-              i++;
+          var xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+              console.log(this.responseText);
+              console.log(typeof this.responseText);
+              console.log("success");
             }
-            }
-            //check here!!
+          };
+          try {
+            xhttp.open("POST", "http://127.0.0.1:5000/", true);
+            xhttp.setRequestHeader("Content-type", "application/json");
+            xhttp.send(JSON.stringify(dat_to_pass_in));
+          } catch (error) {
+            console.log(error);
+          }
+          // var i = 0;
 
-            // elementlist[0].innerText = "Augmented Subject";
-          // });
+          // while (i < elementlist.length) {
+          //   // const codeLinesText = codeLines.map(l => l.textContent);
 
-          // var com = elementlist[0].innerText;
-          // var a = Sentiment_Prediction(com);
-          // elementlist[0].innerText = a.toString(10);
+          //   var com = elementlist[i].textContent;
+          //   var temp = com;
+          //   temp = preProcess(temp);
+
+          //   var a = Sentiment_Prediction(temp);
+          //   var words = word_classifier(temp);
+          //   console.log(words);
+
+          //   // if (words.length < 4) {
+          //   //   continue;
+          //   // }
+
+          //   var classpoints = [12];
+          //   var max = 0;
+          //   classs = -1;
+
+          //   classpoints[0] = words.diff(class1).length;
+          //   classpoints[1] = words.diff(class2).length;
+          //   classpoints[2] = words.diff(class3).length;
+          //   classpoints[3] = words.diff(class4).length;
+          //   classpoints[4] = words.diff(class5).length;
+          //   classpoints[5] = words.diff(class6).length;
+          //   classpoints[6] = words.diff(class7).length;
+          //   classpoints[7] = words.diff(class8).length;
+          //   classpoints[8] = words.diff(class9).length;
+          //   classpoints[9] = words.diff(class10).length;
+          //   classpoints[10] = words.diff(class11).length;
+          //   classpoints[11] = words.diff(class12).length;
+
+          //   for (ii = 0; ii < classpoints.length; ii++) {
+          //     if (classpoints[ii] > max) {
+          //       max = classpoints[ii];
+          //       classs = ii;
+          //     }
+          //     console.log(classpoints[ii]);
+          //   }
+
+          //   console.log("here");
+          //   console.log(classs);
+
+          //   console.log(max);
+
+          //   var new_string = "";
+          //   if (a > 0) {
+          //     if (classs == 0) {
+          //       new_string = new_string + "😄 ";
+          //     } else if (classs == 1) {
+          //       new_string = new_string + "👏 ";
+          //     } else if (classs == 2) {
+          //       new_string = new_string + "😌 ";
+          //     } else if (classs == 3) {
+          //       new_string = new_string + "😨 ";
+          //     } else if (classs == 4) {
+          //       new_string = new_string + "😞 ";
+          //     } else if (classs == 5) {
+          //       new_string = new_string + "😢 ";
+          //     } else if (classs == 6) {
+          //       new_string = new_string + "😣 ";
+          //     } else if (classs == 7) {
+          //       new_string = new_string + "😵 ";
+          //     } else if (classs == 8) {
+          //       new_string = new_string + "😤 ";
+          //     } else if (classs == 9) {
+          //       new_string = new_string + "👍 ";
+          //     } else if (classs == 10) {
+          //       new_string = new_string + "😄 ";
+          //     } else if (classs == 11) {
+          //       new_string = new_string + "🤩 ";
+          //     } else if (classs == -1) {
+          //       new_string = new_string + "👌";
+          //     }
+          //     new_string = new_string + com;
+          //     elementlist[i].innerHTML = new_string;
+          //   } else if (a < 0) {
+          //     if (classs == 0) {
+          //       new_string = new_string + "😄 ";
+          //     } else if (classs == 1) {
+          //       new_string = new_string + "👏 ";
+          //     } else if (classs == 2) {
+          //       new_string = new_string + "😌 ";
+          //     } else if (classs == 3) {
+          //       new_string = new_string + "😨 ";
+          //     } else if (classs == 4) {
+          //       new_string = new_string + "😞 ";
+          //     } else if (classs == 5) {
+          //       new_string = new_string + "😢 ";
+          //     } else if (classs == 6) {
+          //       new_string = new_string + "😣 ";
+          //     } else if (classs == 7) {
+          //       new_string = new_string + "😵 ";
+          //     } else if (classs == 8) {
+          //       new_string = new_string + "😤 ";
+          //     } else if (classs == 9) {
+          //       new_string = new_string + "👍 ";
+          //     } else if (classs == 10) {
+          //       new_string = new_string + "😄 ";
+          //     } else if (classs == 11) {
+          //       new_string = new_string + "🤩 ";
+          //     } else if (classs == -1) {
+          //       new_string = new_string + "😤";
+          //     }
+
+          //     new_string = new_string + com;
+          //     elementlist[i].innerHTML = new_string;
+          //   } else {
+          //     new_string = new_string + "";
+          //   }
+
+          //   i++;
+          // }
+        }
+        //check here!!
+
+        // elementlist[0].innerText = "Augmented Subject";
+        // });
+
+        // var com = elementlist[0].innerText;
+        // var a = Sentiment_Prediction(com);
+        // elementlist[0].innerText = a.toString(10);
         // }
-        
+
         $(document).ready(function () {
           main();
         });

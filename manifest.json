@@ -12,15 +12,12 @@
     "webRequest",
     "webNavigation"
   ],
- 
+
   "content_scripts": [
     {
       "matches": ["*://github.com/*"],
       "css": ["style.css"],
-      "js": [
-        "js/jquery-3.3.1.min.js",
-        "githubEmo.js"
-      ]
+      "js": ["js/jquery-3.3.1.min.js", "githubEmo.js"]
     }
   ],
   "background": {
