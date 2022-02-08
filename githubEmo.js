@@ -71727,32 +71727,91 @@ THE SOFTWARE.
           var elementlist = document.querySelectorAll(
             "td.d-block.comment-body.markdown-body.js-comment-body > p , a.Link--primary.text-bold.js-navigation-open.markdown-title"
           );
+          // console.log(elementlist.length);
           // var elementlist = document.querySelectorAll(
           //   ".y6,.hP,.gmail_default, span, p"
           // );
 
+          var emoji_list1 = {
+            anger: "😠",
+            fear: "😨",
+            joy: "😂",
+            sadness: "😥",
+            surprise: "😯",
+            confidence: "😁",
+            confused: "😵",
+            worried: "😟",
+            praise: "🙌",
+            mistake: "😕",
+          };
+          var emoji_list2 = {
+            anger: "😤",
+            fear: "😱",
+            joy: "😄",
+            sadness: "☹️",
+            surprise: "😮",
+            confidence: "😎",
+            confused: "😖",
+            worried: "😦",
+            praise: "👏",
+            mistake: "😅",
+          };
+          var xhttp = new XMLHttpRequest();
           var dat_to_pass_in = [];
           let i = 0;
           for (i = 0; i < elementlist.length; i++) {
-            dat_to_pass_in.push({ test: elementlist[i].textContent });
-            console.log(elementlist[i].textContent);
-          }
-
-          var xhttp = new XMLHttpRequest();
-          xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-              console.log(this.responseText);
-              console.log(typeof this.responseText);
-              console.log("success");
+            if (elementlist[i].innerText.length > 10) {
+              dat_to_pass_in.push({ test: elementlist[i].innerText });
             }
-          };
+
+            // console.log(elementlist[i].textContent);
+          }
           try {
+            console.log(dat_to_pass_in);
             xhttp.open("POST", "http://127.0.0.1:5000/", true);
             xhttp.setRequestHeader("Content-type", "application/json");
             xhttp.send(JSON.stringify(dat_to_pass_in));
           } catch (error) {
             console.log(error);
           }
+          xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+              // console.log(i);
+              console.log(this.responseText);
+              console.log(typeof this.responseText);
+              console.log("success");
+              var my_array = this.responseText.split(", ");
+
+              let loopi = 0;
+              let i = 0;
+              for (i = 0; i < elementlist.length; i++) {
+                if (elementlist[i].innerText.length > 10) {
+                  var my_string = "";
+
+                  //emoji 1
+                  let emoji = my_array[loopi++];
+                  // emoji = emoji.trim();
+                  emoji = emoji.replace(/[^a-zA-Z ]/g, "");
+
+                  my_string = emoji_list2[emoji] + my_string;
+                  console.log(emoji);
+                  //emoji 2
+                  emoji = my_array[loopi++];
+                  // emoji = emoji.trim();
+                  emoji = emoji.replace(/[^a-zA-Z ]/g, "");
+
+                  my_string = emoji_list1[emoji] + my_string;
+                  console.log(emoji);
+
+                  const div = document.createElement("div");
+                  div.innerHTML = my_string;
+                  elementlist[i].appendChild(div);
+                  // elementlist[i].innerText = my_string;
+                }
+              }
+            }
+          };
+
           // var i = 0;
 
           // while (i < elementlist.length) {

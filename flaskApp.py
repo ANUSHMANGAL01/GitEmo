@@ -10,23 +10,20 @@ CORS(app)
 
 def index():
 
-    # data_received = (request.form["data"]
+    
     data_received = request.data
-    # print(type(data_received))
+   
     json_data = json.loads(data_received)
-    # print(json_data)
-    # print(type(json_data))
+    
     
     list = []
     for ele in json_data:
-        if(len(ele["test"]) >20):
-            list.append(ele["test"])
-    # print(list)  
+       list.append(ele["test"])
+     
     ans =  sentiment_func(list)
-    # print("Hello")
-    # print(ans)
+    
     return ans
-    # return "Hello"
+    
 
 
 
