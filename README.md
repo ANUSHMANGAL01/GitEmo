@@ -21,7 +21,7 @@ The main file is githubEmo.js and the background file background.js checks that 
 ## Dependencies
 
 You must have flask installed, and the transformers module which in turn needs tensorflow. 
-You can find how to download it ![here](https://huggingface.co/transformers/v3.5.1/installation.html).
+You can find how to download it [here](https://huggingface.co/transformers/v3.5.1/installation.html).
 
 ## How to Run
 After installing all the dependencies, you are ready to go.
